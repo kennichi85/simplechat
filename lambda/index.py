@@ -104,8 +104,8 @@ def lambda_handler(event, context):
         req = urllib.request.Request(url, data=json_data, headers=headers, method='POST')
         try:
             with urllib.request.urlopen(req) as response:
-                response_body = response.read().decode('utf-8')
-                print(response_body)
+                response_body = response.read()
+                print(response_body.decode('utf-8'))
         except urllib.error.HTTPError as e:
             print(f'HTTPError: {e.code} {e.reason}')
             print(e.read().decode('utf-8'))
@@ -124,14 +124,15 @@ def lambda_handler(event, context):
         # assistant_response = response_body['output']['message']['content'][0]['text']
         # レスポンスを解析
         # response_body = json.loads(response.read())
+        response_body = json.loads(response_body)
         print("Gemma response:", json.dumps(response_body, default=str))
         
         # 応答の検証
-        if not response_body['generated_text']:
+        if not response_body.get('generated_text').decode('utf-8'):
             raise Exception("No response content from the model")
         
         # アシスタントの応答を取得
-        assistant_response = response_body['generated_text']
+        assistant_response = response_body['generated_text'].decode('utf-8')
 
 
         # アシスタントの応答を会話履歴に追加
