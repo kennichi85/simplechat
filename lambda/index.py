@@ -124,15 +124,16 @@ def lambda_handler(event, context):
         # assistant_response = response_body['output']['message']['content'][0]['text']
         # レスポンスを解析
         # response_body = json.loads(response.read())
-        response_body = json.loads(response_body)
-        print("Gemma response:", json.dumps(response_body, default=str))
+        response_body = response['generated_text'].read().decode('utf-8')
+        # print("Gemma response:", json.dumps(response_body, default=str))
+        print("Gemma response:", response_body)
         
-        # 応答の検証
-        if not response_body.get('generated_text').decode('utf-8'):
-            raise Exception("No response content from the model")
+        # # 応答の検証
+        # if not response_body.get('generated_text'):
+        #     raise Exception("No response content from the model")
         
         # アシスタントの応答を取得
-        assistant_response = response_body['generated_text'].decode('utf-8')
+        assistant_response = response_body
 
 
         # アシスタントの応答を会話履歴に追加
