@@ -90,9 +90,9 @@ def lambda_handler(event, context):
         # )
         url = 'https://dc56-35-197-60-120.ngrok-free.app/generate'
         data = {
-            "prompt": "please tell me about Xian city of China",
+            "prompt": message,
             "max_new_tokens": 512,
-            "do_sample": True,
+            "do_sample": true,
             "temperature": 0.7,
             "top_p": 0.9
         }
