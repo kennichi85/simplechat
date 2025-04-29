@@ -112,17 +112,28 @@ def lambda_handler(event, context):
         except urllib.error.URLError as e:
             print(f'URLError: {e.reason}')
 
+        # # レスポンスを解析
+        # response_body = json.loads(response['body'].read())
+        # print("Bedrock response:", json.dumps(response_body, default=str))
+        
+        # # 応答の検証
+        # if not response_body.get('output') or not response_body['output'].get('message') or not response_body['output']['message'].get('content'):
+        #     raise Exception("No response content from the model")
+        
+        # # アシスタントの応答を取得
+        # assistant_response = response_body['output']['message']['content'][0]['text']
         # レスポンスを解析
-        response_body = json.loads(response['body'].read())
-        print("Bedrock response:", json.dumps(response_body, default=str))
+        response_body = json.loads(response.read())
+        print("Gemma response:", json.dumps(response_body, default=str))
         
         # 応答の検証
-        if not response_body.get('output') or not response_body['output'].get('message') or not response_body['output']['message'].get('content'):
+        if not response_body.get('generated_text'):
             raise Exception("No response content from the model")
         
         # アシスタントの応答を取得
-        assistant_response = response_body['output']['message']['content'][0]['text']
-        
+        assistant_response = response_body['generated_text']
+
+
         # アシスタントの応答を会話履歴に追加
         messages.append({
             "role": "assistant",
