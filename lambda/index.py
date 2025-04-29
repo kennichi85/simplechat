@@ -127,7 +127,7 @@ def lambda_handler(event, context):
         print("Gemma response:", json.dumps(response_body, default=str))
         
         # 応答の検証
-        if not response_body.get('generated_text'):
+        if not response_body['generated_text']:
             raise Exception("No response content from the model")
         
         # アシスタントの応答を取得
