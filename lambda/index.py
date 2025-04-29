@@ -123,7 +123,7 @@ def lambda_handler(event, context):
         # # アシスタントの応答を取得
         # assistant_response = response_body['output']['message']['content'][0]['text']
         # レスポンスを解析
-        response_body = json.loads(response.read())
+        response_body = json.loads(response.read().decode('utf-8'))
         #response_body = response['generated_text'].read().decode('utf-8')
         # print("Gemma response:", json.dumps(response_body, default=str))
         print("Gemma response:", response_body.get('generated_text'))
